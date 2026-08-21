@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS_Float</title>
+
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 30px;
+            background-color: rgb(196, 186, 174);
+        }
+
+        #container-float{
+            width: 500px;               /* ← exigência: 500px de largura */
+            height: 500px;              /* ← exigência: 500px de altura */
+            background-color: blanchedalmond;
+            border: 2px solid #000;     /* borda para enfatizar a estrutura */
+            padding: 20px;              
+            overflow: hidden; 
+            padding: 20px;          
+        }
+
+        .caixa-grande{
+            float: left;
+            width: 100%;                /* ocupa toda a largura, no topo */
+            height: 60%;
+            background-color: blue;
+        }
+
+        .caixa-pequena{
+            float: left;                /* alinha à esquerda, igual à grande */
+            width: 150px;               /* quadrado perfeito */
+            height: 150px;
+            margin-top: 20px;           /* espaço entre a grande e a pequena */
+            background-color: green;
+        }
+        .caixa-grande img, 
+        .caixa-pequena img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+    <section id="container-float">
+        <div class="caixa-grande"><img src="imagens/aurora_boreal.jpg" alt="Aurora aurora_boreal"></div>
+        <div class="caixa-pequena"> <img src="imagens/folhas.jpg" alt="Montains"> </div>
+    </section>
+    
+</body>
+</html>

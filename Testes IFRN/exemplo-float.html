@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exemplo Prático - CSS Float</title>
+    <link rel="stylesheet" href="estilo-float.css">
+</head>
+<body>
+
+    <h1>Exemplo Prático: CSS Float</h1>
+
+    <!-- ====== EXEMPLO 1: Imagem flutuando à esquerda ====== -->
+    <section class="card">
+        <h2>1. Texto fluindo ao redor de uma imagem</h2>
+        <p>
+            Use <code>float</code> quando quiser que um elemento fique ao lado
+            de outro e o conteúdo flua ao redor dele. Veja como o texto abaixo
+            se ajusta ao redor da imagem flutuada à esquerda.
+        </p>
+
+        <div class="artigo">
+            <img src="imagem.png"
+                 alt="Imagem de exemplo" class="img-esquerda">
+            <p>
+                Este parágrafo flui ao redor da imagem porque ela tem
+                <code>float: left</code>. A imagem é retirada do fluxo normal
+                do documento e o texto passa a ocupar o espaço ao lado dela.
+                Quando o texto termina, ele continua abaixo da imagem.
+            </p>
+            <p>
+                Perceba que, sem o <code>clear</code>, o próximo elemento
+                também tentaria se posicionar ao lado da imagem. Por isso,
+                usamos a classe <code>clearfix</code> no contêiner para
+                "limpar" o float e evitar que o layout quebre.
+            </p>
+        </div>
+    </section>
+
+    <!-- ====== EXEMPLO 2: Layout de duas colunas ====== -->
+    <section class="card">
+        <h2>2. Layout de duas colunas com float</h2>
+        <p>
+            Antes do Flexbox e do Grid, o <code>float</code> era a técnica
+            mais usada para criar colunas. Veja um exemplo clássico:
+        </p>
+
+        <div class="colunas clearfix">
+            <div class="coluna coluna-esquerda">
+                <h3>Coluna Esquerda</h3>
+                <p>
+                    Esta coluna usa <code>float: left</code> e ocupa 60% da
+                    largura do contêiner.
+                </p>
+            </div>
+            <div class="coluna coluna-direita">
+                <h3>Coluna Direita</h3>
+                <p>
+                    Esta coluna usa <code>float: right</code> e ocupa 35% da
+                    largura do contêiner.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ====== EXEMPLO 3: Imagem flutuando à direita ====== -->
+    <section class="card">
+        <h2>3. Imagem flutuando à direita</h2>
+        <div class="artigo clearfix">
+            <img src="https://via.placeholder.com/150x120/e74c3c/ffffff?text=Imagem"
+                 alt="Imagem de exemplo" class="img-direita">
+            <p>
+                Aqui a imagem usa <code>float: right</code>, então o texto se
+                alinha à esquerda dela. Esse é o uso mais comum do
+                <code>float</code> hoje em dia: posicionar uma imagem ao lado
+                de um texto e deixar o conteúdo fluir naturalmente.
+            </p>
+        </div>
+    </section>
+
+    <!-- ====== EXEMPLO 4: Valores lógicos ====== -->
+    <section class="card">
+        <h2>4. Valores lógicos: inline-start e inline-end</h2>
+        <div class="artigo clearfix">
+            <img src="https://via.placeholder.com/150x120/27ae60/ffffff?text=Logico"
+                 alt="Imagem de exemplo" class="img-logica">
+            <p>
+                Este exemplo usa <code>float: inline-start</code>. Em um idioma
+                da esquerda para a direita (como o português), ele se comporta
+                como <code>left</code>. Já em idiomas da direita para a
+                esquerda (como o árabe), ele automaticamente se comporta como
+                <code>right</code>. Isso torna o layout mais inclusivo.
+            </p>
+        </div>
+    </section>
+
+</body>
+</html>

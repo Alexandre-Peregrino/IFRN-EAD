@@ -1,0 +1,18 @@
+body {
+    display: flex;
+    justify-content: center;   /* centraliza o container na horizontal */
+    align-items: center;       /* centraliza o container na vertical */
+    height: 100vh;             /* body ocupa toda a altura da tela */
+    margin: 0;                 /* remove a margem padrão do body */
+}
+
+#container {
+    display: flex;
+    justify-content: center;   /* centraliza o texto dentro do container */
+    align-items: center;
+    width: 300px;
+    height: 300px;
+    background-color: rgb(58, 58, 143);
+    color: white;
+    flex-direction: column-reverse;
+}

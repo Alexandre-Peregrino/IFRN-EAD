@@ -1,0 +1,128 @@
+/* ============================================
+   ESTILO GERAL
+   ============================================ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #424344;
+    color: #333;
+    line-height: 1.6;
+    padding: 30px;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+h1 {
+    text-align: center;
+    color: #afbbc6;
+    margin-bottom: 30px;
+}
+
+h2 {
+    color: #2980b9;
+    margin-bottom: 10px;
+}
+
+h3 {
+    color: #34495e;
+    margin-bottom: 8px;
+}
+
+code {
+    background-color: #ecf0f1;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.9em;
+    color: #c0392b;
+}
+
+/* ============================================
+   CARDS (seções de exemplo)
+   ============================================ */
+.card {
+    background-color: #ffffff;
+    border: 1px solid #dcdde1;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 25px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.card > p {
+    margin-bottom: 15px;
+}
+
+/* ============================================
+   EXEMPLO 1 E 3: IMAGEM + TEXTO
+   ============================================ */
+.artigo p {
+    text-align: justify;
+}
+
+/* Imagem flutuando à ESQUERDA */
+.img-esquerda {
+    float: left;            /* retira do fluxo e move para a esquerda */
+    margin: 0 15px 10px 0;  /* espaço ao redor da imagem */
+    border-radius: 6px;
+}
+
+/* Imagem flutuando à DIREITA */
+.img-direita {
+    float: right;           /* retira do fluxo e move para a direita */
+    margin: 0 0 10px 15px;  /* espaço ao redor da imagem */
+    border-radius: 6px;
+}
+
+/* ============================================
+   EXEMPLO 2: LAYOUT DE DUAS COLUNAS
+   ============================================ */
+.colunas {
+    margin-top: 10px;
+}
+
+.coluna {
+    padding: 15px;
+    border-radius: 6px;
+    color: #fff;
+}
+
+.coluna-esquerda {
+    float: left;            /* ocupa o lado esquerdo */
+    width: 60%;
+    background-color: #3498db;
+    margin-right: 5%;
+}
+
+.coluna-direita {
+    float: right;           /* ocupa o lado direito */
+    width: 35%;
+    background-color: #e67e22;
+}
+
+/* ============================================
+   EXEMPLO 4: VALOR LÓGICO (inline-start)
+   ============================================ */
+.img-logica {
+    float: inline-start;    /* vira left em LTR e right em RTL */
+    margin: 0 15px 10px 0;
+    border-radius: 6px;
+}
+
+/* ============================================
+   CLEARFIX (limpeza do float)
+   ============================================ */
+/*
+   O clearfix resolve o problema do "colapso de altura":
+   quando os filhos flutuam, o pai perde a altura.
+   Este truque força o contêiner a envolver os filhos.
+*/
+.clearfix::after {
+    content: "";
+    display: table;
+    clear: both;
+}

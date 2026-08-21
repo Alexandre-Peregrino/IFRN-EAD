@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 20px;
+            background-color: rgb(196, 186, 174);
+        }
+
+        #container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+            gap: 5px;
+            padding: 5px;
+            width: 500px;
+            height: 500px;
+            border: solid 3px #010101;
+        }
+
+        .item {
+            background-color: burlywood;
+            overflow: hidden;
+            min-height: 0;
+        }
+
+        .item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+    </style>
+
+    <title>Display_Grid></title>
+</head>
+
+<body>
+    <div id="container">
+        <div class="item"><img src="imagens/andorinha.jpg" alt="andorinha"></div>
+        <div class="item"><img src="imagens/aurora_boreal.jpg" alt="aurora_boreal"></div>
+        <div class="item"><img src="imagens/borboleta.jpg" alt="borboleta"></div>
+        <div class="item"><img src="imagens/colibri.jpg" alt="colibri"></div>
+        <div class="item"><img src="imagens/coruja.jpg" alt="coruja"></div>
+        <div class="item"><img src="imagens/eclipse.jpg" alt="eclipsi"></div>
+        <div class="item"><img src="imagens/folhas.jpg" alt="folhas"></div>
+        <div class="item"><img src="imagens/gato.jpg" alt="gato"></div>
+        <div class="item"><img src="imagens/montains.jpg" alt="montains"></div>
+    </div>
+</body>
+
+</html>
