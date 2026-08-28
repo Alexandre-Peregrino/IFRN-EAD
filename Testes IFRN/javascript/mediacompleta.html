@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Médias</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+
+        .card {
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 40px;
+            width: 100%;
+            max-width: 460px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            font-size: 28px;
+            color: #2d3748;
+            margin-bottom: 6px;
+            text-align: center;
+        }
+
+        .subtitulo {
+            text-align: center;
+            color: #a0aec0;
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            color: #4a5568;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        select,
+        input {
+            width: 100%;
+            padding: 12px 14px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 15px;
+            color: #2d3748;
+            background: #f7fafc;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            outline: none;
+        }
+
+        select:focus,
+        input:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+            background: #ffffff;
+        }
+
+        .grupo {
+            margin-bottom: 20px;
+        }
+
+        .linha-botoes {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.15s, opacity 0.15s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .btn-primario {
+            background: #667eea;
+            color: #fff;
+        }
+
+        .btn-primario:hover {
+            opacity: 0.9;
+        }
+
+        .btn-secundario {
+            background: #edf2f7;
+            color: #4a5568;
+        }
+
+        .btn-secundario:hover {
+            background: #e2e8f0;
+        }
+
+        .mensagem {
+            background: #ebf4ff;
+            border-left: 4px solid #667eea;
+            color: #2b6cb0;
+            padding: 12px 14px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .termos-inseridos {
+            background: #f0fff4;
+            border-left: 4px solid #48bb78;
+            color: #276749;
+            padding: 12px 14px;
+            border-radius: 8px;
+            font-size: 14px;
+            margin-top: 16px;
+            min-height: 20px;
+        }
+
+        .resultado {
+            background: #faf5ff;
+            border-left: 4px solid #805ad5;
+            color: #553c9a;
+            padding: 14px;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .area-peso {
+            margin-top: 14px;
+        }
+
+        .escondido {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="card">
+        <h1>Calculadora de Médias</h1>
+        <p class="subtitulo">Escolha o tipo e insira os termos</p>
+
+        <div class="grupo">
+            <label for="media">Tipo de média</label>
+            <select id="media" onchange="verificarTipo()">
+                <option value="">Selecione...</option>
+                <option value="arit">Aritmética</option>
+                <option value="pond">Ponderada</option>
+            </select>
+        </div>
+
+        <div id="areaQuantidade" class="escondido">
+            <div class="grupo">
+                <label for="qt_ter">Quantidade de termos</label>
+                <input id="qt_ter" type="number" min="1">
+            </div>
+            <button class="btn-primario" type="button" onclick="definirQuantidade()">Definir</button>
+        </div>
+
+        <div id="areaTermos" class="escondido">
+            <p id="mensagemTermo" class="mensagem"></p>
+            <div class="grupo">
+                <label for="termo">Digite o termo</label>
+                <input id="termo" type="number">
+            </div>
+            <div id="areaPeso" class="area-peso escondido">
+                <label for="peso">Peso do termo</label>
+                <input id="peso" type="number" min="1">
+            </div>
+            <button class="btn-primario" type="button" onclick="inserirTermo()">Inserir</button>
+            <p id="termosInseridos" class="termos-inseridos"></p>
+        </div>
+
+        <div class="linha-botoes">
+            <button class="btn-secundario" type="button" onclick="reiniciar()">Reiniciar</button>
+            <button class="btn-primario" type="button" onclick="calcular()">Calcular</button>
+        </div>
+
+        <p id="resultado" class="resultado"></p>
+    </div>
+
+    <script>
+        // ============================================================
+        // VARIÁVEIS GLOBAIS (o "estado" do programa)
+        // ============================================================
+
+        // Array que guarda todos os termos. Cada termo é um objeto:
+        // { valor: 7, peso: 1 }
+        let termos = [];
+
+        // Quantidade de termos que o usuário definiu
+        let quantidade = 0;
+
+        // Quantos termos já foram inseridos até agora
+        let contador = 0;
+
+        // ============================================================
+        // FUNÇÃO 1: verifica o tipo de média escolhido no select
+        // ============================================================
+        const verificarTipo = () => {
+            // Pega o valor do select (ex: "arit" ou "pond")
+            let tipo = document.getElementById("media").value;
+
+            // Se escolheu aritmética OU ponderada, mostra a área da quantidade
+            if (tipo === "arit" || tipo === "pond") {
+                document.getElementById("areaQuantidade").classList.remove("escondido");
+            } else {
+                // Se voltou para "Selecione...", esconde tudo de novo
+                document.getElementById("areaQuantidade").classList.add("escondido");
+                document.getElementById("areaTermos").classList.add("escondido");
+            }
+        };
+
+        // ============================================================
+        // FUNÇÃO 2: define a quantidade de termos
+        // ============================================================
+        const definirQuantidade = () => {
+            // Lê o que o usuário digitou e transforma em número
+            quantidade = Number(document.getElementById("qt_ter").value);
+
+            // Se não for número válido ou for menor/igual a zero, avisa e para
+            if (isNaN(quantidade) || quantidade <= 0) {
+                alert("Informe uma quantidade válida (maior que zero)");
+                return; // "return" aqui encerra a função antes de continuar
+            }
+
+            // Zera a lista e o contador para começar do zero
+            termos = [];
+            contador = 0;
+
+            // Limpa mensagens antigas
+            document.getElementById("termosInseridos").textContent = "";
+            document.getElementById("resultado").textContent = "";
+
+            // Mostra a mensagem pedindo o primeiro termo
+            document.getElementById("mensagemTermo").textContent =
+                "Insira o termo 1 de " + quantidade;
+
+            // Se for média ponderada, mostra o campo de peso
+            let tipo = document.getElementById("media").value;
+            if (tipo === "pond") {
+                document.getElementById("areaPeso").classList.remove("escondido");
+            } else {
+                document.getElementById("areaPeso").classList.add("escondido");
+            }
+
+            // Mostra a área dos termos e coloca o cursor no campo
+            document.getElementById("areaTermos").classList.remove("escondido");
+            document.getElementById("termo").focus();
+        };
+
+        // ============================================================
+        // FUNÇÃO 3: insere um termo na lista
+        // ============================================================
+        const inserirTermo = () => {
+            // Lê o termo digitado e transforma em número
+            let valor = Number(document.getElementById("termo").value);
+
+            // Se o campo está vazio ou não é número, avisa e para
+            if (document.getElementById("termo").value === "" || isNaN(valor)) {
+                alert("Digite um número válido");
+                return;
+            }
+
+            // Peso padrão é 1 (usado na média aritmética)
+            let peso = 1;
+
+            // Se for ponderada, lê o peso digitado
+            let tipo = document.getElementById("media").value;
+            if (tipo === "pond") {
+                peso = Number(document.getElementById("peso").value);
+
+                // Valida o peso
+                if (document.getElementById("peso").value === "" || isNaN(peso) || peso <= 0) {
+                    alert("Digite um peso válido (maior que zero)");
+                    return;
+                }
+
+                // Limpa o campo de peso para o próximo termo
+                document.getElementById("peso").value = "";
+            }
+
+            // Guarda o termo na lista (como objeto com valor e peso)
+            termos.push({ valor: valor, peso: peso });
+
+            // Aumenta o contador de termos inseridos
+            contador++;
+
+            // Limpa o campo do termo para o próximo
+            document.getElementById("termo").value = "";
+
+            // Monta o texto mostrando os termos já inseridos
+            let texto = "Termos inseridos: ";
+            for (let i = 0; i < termos.length; i++) {
+                texto += termos[i].valor; // adiciona o valor
+                if (tipo === "pond") {
+                    texto += " (peso " + termos[i].peso + ")"; // mostra o peso se houver
+                }
+                if (i < termos.length - 1) {
+                    texto += ", "; // vírgula entre os termos
+                }
+            }
+            document.getElementById("termosInseridos").textContent = texto;
+
+            // Se ainda faltam termos, pede o próximo
+            if (contador < quantidade) {
+                document.getElementById("mensagemTermo").textContent =
+                    "Insira o termo " + (contador + 1) + " de " + quantidade;
+                document.getElementById("termo").focus();
+            } else {
+                // Se acabaram os termos, avisa que pode calcular
+                document.getElementById("mensagemTermo").textContent =
+                    "Todos os " + quantidade + " termos foram inseridos! Clique em Calcular.";
+            }
+        };
+
+        // ============================================================
+        // FUNÇÃO 4: calcula a média (recebe o array de notas)
+        // ============================================================
+        const calcularMedia = (notas) => {
+            let tipo = document.getElementById("media").value;
+
+            // MÉDIA ARITMÉTICA: soma tudo e divide pela quantidade
+            if (tipo === "arit") {
+                let soma = 0;
+                for (let i = 0; i < notas.length; i++) {
+                    soma = soma + notas[i].valor; // acumula cada valor
+                }
+                let media = soma / notas.length; // divide pela quantidade
+                return media; // devolve o resultado
+            }
+
+            // MÉDIA PONDERADA: soma (valor x peso) e divide pela soma dos pesos
+            let somaValores = 0;
+            let somaPesos = 0;
+            for (let i = 0; i < notas.length; i++) {
+                somaValores = somaValores + (notas[i].valor * notas[i].peso);
+                somaPesos = somaPesos + notas[i].peso;
+            }
+            let media = somaValores / somaPesos;
+            return media; // devolve o resultado
+        };
+
+        // ============================================================
+        // FUNÇÃO 5: mostra o resultado na página
+        // ============================================================
+        const exibirResultado = (texto) => {
+            document.getElementById("resultado").textContent = texto;
+        };
+
+        // ============================================================
+        // FUNÇÃO 6: função principal que organiza o cálculo
+        // ============================================================
+        const calcular = () => {
+            // Verifica se todos os termos foram inseridos
+            if (contador !== quantidade) {
+                alert("Faltam termos: insira todos os " + quantidade + " antes de calcular.");
+                return;
+            }
+
+            // Chama a função que calcula e guarda o resultado
+            let media = calcularMedia(termos);
+
+            // Monta o texto com o rótulo certo
+            let tipo = document.getElementById("media").value;
+            let rotulo = "Média aritmética: ";
+            if (tipo === "pond") {
+                rotulo = "Média ponderada: ";
+            }
+
+            // Chama a função que mostra o resultado na página
+            exibirResultado(rotulo + media);
+        };
+
+        // ============================================================
+        // FUNÇÃO 7: reinicia tudo
+        // ============================================================
+        const reiniciar = () => {
+            // Zera as variáveis
+            termos = [];
+            quantidade = 0;
+            contador = 0;
+
+            // Limpa os campos
+            document.getElementById("media").value = "";
+            document.getElementById("qt_ter").value = "";
+            document.getElementById("termo").value = "";
+            document.getElementById("peso").value = "";
+
+            // Limpa as mensagens
+            document.getElementById("mensagemTermo").textContent = "";
+            document.getElementById("termosInseridos").textContent = "";
+            document.getElementById("resultado").textContent = "";
+
+            // Esconde as áreas
+            document.getElementById("areaQuantidade").classList.add("escondido");
+            document.getElementById("areaTermos").classList.add("escondido");
+            document.getElementById("areaPeso").classList.add("escondido");
+        };
+    </script>
+</body>
+
+</html>
