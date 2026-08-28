@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript</title>
+    <style>
+        #areaIn{
+            width: 400px;
+            height: 30rem;
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <form id="formulario">
+        <p>
+            <label for="texto">Conteudo</label> <br>
+            <textarea id="textoIn" cols="50" rows="7"></textarea>
+        </p>
+        <p>
+            <label for="elemento">Elemento</label>
+            <select id="tag">
+                <option value="h1">h1</option>
+                <option value="h2">h2</option>
+                <option value="hr">hr</option>
+                <option value="p">p</option>
+                <option value="bx">box</option>
+                <option value="bl">bola</option>
+            </select>
+            <button type="submit" onclick="inserirElemento(); return false">Criar</button>
+            <button type="submit" onclick="exec(); return false;">Contar</button>
+        </p>
+        <section id="areaIn">
+
+        </section>
+    </form>
+    <script>
+        var n1 = 1;
+        var n2 = 10;
+
+        function exec(){
+            var entrada = document.getElementById("textoIn").value;
+            var area = document.getElementById("areaIn")
+            area.innerHTML = listar(n1, n2);
+            //alert(contar(entrada));
+        }
+
+        function contar(texto){
+
+            let cont = 0;
+            let i =0;
+            if(texto == ""){
+                alert("O conteúdo não pode ser vazio")
+            }else{
+                while(texto[i] !== undefined){
+                    cont++;
+                    i++;
+                }
+            }
+            return cont;
+
+        }
+
+        function listar(n1, n2){
+            var tags = "<ul>";
+            var listaNumeros = [];
+            if (n1 < n2){
+                for(var i = n1; i <= n2; i++){
+                    listaNumeros.push(i);
+                }
+            }else{
+                for(var i = n1; i >= n2; i--){
+                    listaNumeros.push(i);
+                }
+            }
+            
+            listaNumeros.forEach(i => {
+                tags+= "<li>"+i+"</li>"
+            });
+            tags += "</ul>";
+            return tags;
+        }
+
+        function inserirElemento(){
+            var entrada = document.getElementById("textoIn").value;
+            var tipo = document.getElementById("tag").value;
+            var area = document.getElementById("areaIn")
+
+            if(tipo === "h1"){
+                area.innerHTML += "<h1>"+ entrada +"</h1>"
+            }
+
+            if(tipo === "h2"){
+                area.innerHTML += "<h2>"+ entrada +"</h2>"
+            }
+
+            if(tipo === "hr"){
+                area.innerHTML += "<hr style='width: 80%; height: 2px'>"
+            }
+
+            if(tipo === "p"){
+                area.innerHTML += "<p>"+ entrada +"</p>"
+            }
+
+            if(tipo === "bx"){
+                area.innerHTML += "<div style='width: 80%; box-shadow: 3px 2px 3px' #0000f0;'>"+ entrada +"</div>"
+            }
+
+            if(tipo === "bl"){
+                area.innerHTML += "<div style='width: 100px; height: 100px; border-radius: 50px; background-color: #89f;'>&nbsp</div>"
+            }
+        }
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Médias</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+        .card {
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 40px;
+            width: 100%;
+            max-width: 460px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+        h1 {
+            font-size: 28px;
+            color: #2d3748;
+            margin-bottom: 6px;
+            text-align: center;
+        }
+        .subtitulo {
+            text-align: center;
+            color: #a0aec0;
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+        label {
+            display: block;
+            font-weight: 600;
+            color: #4a5568;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        select, input {
+            width: 100%;
+            padding: 12px 14px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 15px;
+            color: #2d3748;
+            background: #f7fafc;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            outline: none;
+        }
+        select:focus, input:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+            background: #ffffff;
+        }
+        .grupo { margin-bottom: 20px; }
+        .linha-botoes {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+        }
+        button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.15s, opacity 0.15s;
+        }
+        button:hover { transform: translateY(-2px); }
+        button:active { transform: translateY(0); }
+        .btn-primario { background: #667eea; color: #fff; }
+        .btn-primario:hover { opacity: 0.9; }
+        .btn-secundario { background: #edf2f7; color: #4a5568; }
+        .btn-secundario:hover { background: #e2e8f0; }
+        .mensagem {
+            background: #ebf4ff;
+            border-left: 4px solid #667eea;
+            color: #2b6cb0;
+            padding: 12px 14px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+        .termos-inseridos {
+            background: #f0fff4;
+            border-left: 4px solid #48bb78;
+            color: #276749;
+            padding: 12px 14px;
+            border-radius: 8px;
+            font-size: 14px;
+            margin-top: 16px;
+            min-height: 20px;
+        }
+        .resultado {
+            background: #faf5ff;
+            border-left: 4px solid #805ad5;
+            color: #553c9a;
+            padding: 14px;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            margin-top: 20px;
+            text-align: center;
+        }
+        .area-peso { margin-top: 14px; }
+        .escondido { display: none; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>Calculadora de Médias</h1>
+        <p class="subtitulo">Escolha o tipo e insira os termos</p>
+
+        <div class="grupo">
+            <label for="media">Tipo de média</label>
+            <select id="media" onchange="verificarTipo()">
+                <option value="">Selecione...</option>
+                <option value="arit">Aritmética</option>
+                <option value="pond">Ponderada</option>
+            </select>
+        </div>
+
+        <div id="areaQuantidade" class="escondido">
+            <div class="grupo">
+                <label for="qt_ter">Quantidade de termos</label>
+                <input id="qt_ter" type="number" min="1">
+            </div>
+            <button class="btn-primario" type="button" onclick="definirQuantidade()">Definir</button>
+        </div>
+
+        <div id="areaTermos" class="escondido">
+            <p id="mensagemTermo" class="mensagem"></p>
+            <div class="grupo">
+                <label for="termo">Digite o termo</label>
+                <input id="termo" type="number" min="1">
+            </div>
+            <div id="areaPeso" class="area-peso escondido">
+                <label for="peso">Peso do termo</label>
+                <input id="peso" type="number" min="1">
+            </div>
+            <button class="btn-primario" type="button" onclick="inserirTermo()">Inserir</button>
+            <p id="termosInseridos" class="termos-inseridos"></p>
+        </div>
+
+        <div class="linha-botoes">
+            <button class="btn-secundario" type="button" onclick="reiniciar()">Reiniciar</button>
+            <button class="btn-primario" type="button" onclick="calcular()">Calcular</button>
+        </div>
+
+        <p id="resultado" class="resultado"></p>
+    </div>
+
+    <script>
+        // Estado do programa (mudam ao longo do uso) → let
+        let termos = new Array();
+        let quantidade = 0;
+        let contador = 0;
+
+        // Referências fixas aos elementos da página → const
+        const mediaSelect = document.getElementById("media");
+        const areaQuantidade = document.getElementById("areaQuantidade");
+        const areaTermos = document.getElementById("areaTermos");
+        const areaPeso = document.getElementById("areaPeso");
+        const campoQtTer = document.getElementById("qt_ter");
+        const campoTermo = document.getElementById("termo");
+        const campoPeso = document.getElementById("peso");
+        const mensagemTermo = document.getElementById("mensagemTermo");
+        const termosInseridos = document.getElementById("termosInseridos");
+        const resultadoEl = document.getElementById("resultado");
+
+        // Mostra/esconde áreas conforme o tipo escolhido
+        const verificarTipo = () => {
+            const tipo = mediaSelect.value;
+            if (tipo === "arit" || tipo === "pond") {
+                areaQuantidade.classList.remove("escondido");
+            } else {
+                areaQuantidade.classList.add("escondido");
+                areaTermos.classList.add("escondido");
+            }
+        };
+
+        // Define a quantidade e prepara a inserção
+        const definirQuantidade = () => {
+            quantidade = Number(campoQtTer.value);
+            if (isNaN(quantidade) || quantidade <= 0) {
+                alert("Informe uma quantidade válida (maior que zero)");
+                return;
+            }
+            termos = new Array();
+            contador = 0;
+            termosInseridos.textContent = "";
+            exibirResultado("");
+            mensagemTermo.textContent = "Insira o termo 1 de " + quantidade;
+            areaPeso.classList.toggle("escondido", mediaSelect.value !== "pond");
+            areaTermos.classList.remove("escondido");
+            campoTermo.focus();
+        };
+
+        // Insere cada termo na lista
+        const inserirTermo = () => {
+            const valor = Number(campoTermo.value);
+            if (campoTermo.value === "" || isNaN(valor)) {
+                alert("Digite um número válido");
+                return;
+            }
+
+            let peso = 1;
+            if (mediaSelect.value === "pond") {
+                peso = Number(campoPeso.value);
+                if (campoPeso.value === "" || isNaN(peso) || peso <= 0) {
+                    alert("Digite um peso válido (maior que zero)");
+                    return;
+                }
+                campoPeso.value = "";
+            }
+
+            termos.push({ valor: valor, peso: peso });
+            contador++;
+            campoTermo.value = "";
+
+            termosInseridos.textContent = "Termos inseridos: " +
+                termos.map(t => t.valor + (mediaSelect.value === "pond" ? " (peso " + t.peso + ")" : "")).join(", ");
+
+            if (contador < quantidade) {
+                mensagemTermo.textContent = "Insira o termo " + (contador + 1) + " de " + quantidade;
+                campoTermo.focus();
+            } else {
+                mensagemTermo.textContent = "Todos os " + quantidade + " termos foram inseridos! Clique em Calcular.";
+            }
+        };
+
+        // ARROW FUNCTION: calcula a média a partir do array de notas
+        const calcularMedia = (notas) => {
+            if (mediaSelect.value === "arit") {
+                const soma = notas.reduce((total, nota) => total + nota.valor, 0);
+                return soma / notas.length;
+            }
+            const somaValores = notas.reduce((total, nota) => total + nota.valor * nota.peso, 0);
+            const somaPesos = notas.reduce((total, nota) => total + nota.peso, 0);
+            return somaValores / somaPesos;
+        };
+
+        // ARROW FUNCTION: exibe o resultado na página (sintaxe mais limpa, retorno implícito)
+        const exibirResultado = (texto) => resultadoEl.textContent = texto;
+
+        // Orquestra: valida, calcula e exibe
+        const calcular = () => {
+            if (contador !== quantidade) {
+                alert("Faltam termos: insira todos os " + quantidade + " antes de calcular.");
+                return;
+            }
+            const media = calcularMedia(termos);
+            const rotulo = mediaSelect.value === "arit" ? "Média aritmética: " : "Média ponderada: ";
+            exibirResultado(rotulo + media);
+        };
+
+        // Zera tudo
+        const reiniciar = () => {
+            termos = new Array();
+            quantidade = 0;
+            contador = 0;
+
+            mediaSelect.value = "";
+            campoQtTer.value = "";
+            campoTermo.value = "";
+            campoPeso.value = "";
+
+            mensagemTermo.textContent = "";
+            termosInseridos.textContent = "";
+            exibirResultado("");
+
+            areaQuantidade.classList.add("escondido");
+            areaTermos.classList.add("escondido");
+            areaPeso.classList.add("escondido");
+        };
+    </script>
+</body>
+</html>

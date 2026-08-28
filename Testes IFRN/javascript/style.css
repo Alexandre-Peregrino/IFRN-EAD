@@ -1,0 +1,23 @@
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+#filha1 {
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #e8f4ff 0%, #7ec8ff 30%, #2a6fb0 65%, #0b1d33 100%);
+    box-shadow: 0 0 40px rgba(100, 180, 255, 0.3); /* opcional: brilho de atmosfera */
+    display: none;
+    margin: 50px; 
+}
+
+#botao{
+    background-color: rgb(235, 168, 146);
+    padding: 30px;
+    border-radius: 10px;
+
+}
