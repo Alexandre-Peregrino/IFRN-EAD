@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pizza 3D</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+            background: linear-gradient(150deg, #c6c4f0, #f08585);
+        }
+        #pizza {
+            /* Duas sombras empilhadas = efeito "flutuando" */
+            filter: drop-shadow(0 10px 8px rgba(0, 0, 0, 0.4))
+                    drop-shadow(0 30px 25px rgba(0, 0, 0, 0.25));
+            transform: translateY(-8px); /* sobe o elemento na tela */
+        }
+    </style>
+</head>
+<body>
+    <h1>Pizza 3D</h1>
+    <canvas id="pizza" width="600" height="600"></canvas>
+</body>
+<script>
+    const canvas_pizza = document.getElementById("pizza");
+    const ctx2d = canvas_pizza.getContext("2d");
+    const cx = 300, cy = 300, raio = 250;
+    const espessura = 20; // altura da lateral da pizza
+
+    // 1. Lateral (massa grossa): círculo deslocado para baixo
+    ctx2d.fillStyle = "#a05a2c";
+    ctx2d.beginPath();
+    ctx2d.arc(cx, cy + espessura, raio, 0, 2 * Math.PI);
+    ctx2d.fill();
+
+    // 2. Topo com gradiente radial (dá profundidade)
+    const grad = ctx2d.createRadialGradient(cx - 60, cy - 60, 20, cx, cy, raio);
+    grad.addColorStop(0, "#ffe08a");
+    grad.addColorStop(1, "#e0a94a");
+    ctx2d.fillStyle = grad;
+    ctx2d.beginPath();
+    ctx2d.arc(cx, cy, raio, 0, 2 * Math.PI);
+    ctx2d.fill();
+
+    // 3. Anel de borda (massa no topo)
+    ctx2d.strokeStyle = "#d9a441";
+    ctx2d.lineWidth = 18;
+    ctx2d.beginPath();
+    ctx2d.arc(cx, cy, raio - 9, 0, 2 * Math.PI);
+    ctx2d.stroke();
+
+    // 4. As 8 fatias (param antes da borda)
+    for (let i = 0; i < 8; i++) {
+        const inicio = (i * 2 * Math.PI) / 8;
+        const fim = ((i + 1) * 2 * Math.PI) / 8;
+
+        ctx2d.beginPath();
+        ctx2d.moveTo(cx, cy);
+        ctx2d.arc(cx, cy, raio - 20, inicio, fim);
+        ctx2d.closePath();
+
+        ctx2d.strokeStyle = "#b87333";
+        ctx2d.lineWidth = 3;
+        ctx2d.stroke();
+    }
+
+    // 5. Brilho no topo (reflexo de luz)
+    ctx2d.strokeStyle = "rgba(255, 255, 255, 0.35)";
+    ctx2d.lineWidth = 14;
+    ctx2d.beginPath();
+    ctx2d.arc(cx, cy, raio * 0.55, Math.PI * 1.1, Math.PI * 1.6);
+    ctx2d.stroke();
+</script>
+</html>

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canvas</title>
+    <style>
+        canvas {
+            border: 1px solid #777;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Elemento canvas -->
+
+    <canvas id="idCanvas" width="400" height="800"></canvas>
+
+    <div id="botoes">
+        <button onclick="retangulo(); return false;">Retangulo</button>
+        <button onclick="triangulo(); return false;">Triangulo</button>
+        <button onclick="circulo(); return false;">Circulo</button>
+        <button onclick="retRedondo(); return false;">Arredondado</button>
+        <button onclick="minion(); return false;">Minion</button>
+        <button onclick="apagar(); return false;">Apagar</button>
+    </div>
+
+    <script>
+
+        const canvas = document.getElementById("idCanvas");
+        const ctx2d = canvas.getContext("2d");
+
+        function retangulo() {
+            //Criação Retângulo
+            ctx2d.fillStyle = "blue";
+            ctx2d.fillRect(200, 10, 90, 90);
+        }
+
+        function triangulo() {
+
+            //criando um triângulo
+
+            ctx2d.beginPath();
+            ctx2d.moveTo(10, 100);
+            ctx2d.lineTo(100, 100);
+            ctx2d.lineTo(50, 10);
+            ctx2d.closePath();
+            ctx2d.fillStyle = "red";
+            ctx2d.fill();
+            ctx2d.closePath();
+        }
+
+        function circulo() {
+
+            //criando um círculo
+
+            ctx2d.beginPath();
+            ctx2d.arc(140, 55, 45, 0, 2 * Math.PI);
+            ctx2d.fillStyle = "green";
+            ctx2d.fill();
+            ctx2d.closePath();
+        }
+
+        function retRedondo() {
+
+            //criando um retângulo arredondado
+
+            ctx2d.beginPath();
+            ctx2d.roundRect(300, 10, 90, 90, 10);
+            ctx2d.fillStyle = "darkBlue";
+            ctx2d.fill();
+            ctx2d.closePath();
+        }
+
+        function apagar() {
+
+            //limpar o canvas
+
+            ctx2d.clearRect(0, 0, 400, 800);
+        }
+
+
+        //Criando um minion
+
+        function minion() {
+
+            //Corpo
+
+            ctx2d.beginPath();
+
+                ctx2d.roundRect(70, 60, 250, 450, 120);
+                ctx2d.fillStyle = "yellow";
+                ctx2d.fill();
+
+            ctx2d.closePath();
+
+            // Tira cabeça
+
+            ctx2d.fillStyle = "black";
+            ctx2d.fillRect(65, 150, 260, 50);
+
+            // Armação óculos círculo fora
+
+            ctx2d.beginPath();
+            ctx2d.arc(200, 170, 60, 0, 2 * Math.PI);
+            ctx2d.fillStyle = "gray";
+            ctx2d.fill();
+            ctx2d.closePath();
+
+            // Olho parte branca
+
+            ctx2d.beginPath();
+            ctx2d.arc(200, 170, 40, 0, 2 * Math.PI);
+            ctx2d.fillStyle = "#fff";
+            ctx2d.fill();
+            ctx2d.closePath();
+
+            // Olho pupila externa
+
+            ctx2d.beginPath();
+            ctx2d.arc(200, 170, 15, 0, 2 * Math.PI);
+            ctx2d.fillStyle = "saddlebrown";
+            ctx2d.fill();
+            ctx2d.closePath();
+
+            // Olho pupila interna
+
+            ctx2d.beginPath();
+            ctx2d.arc(200, 170, 6, 0, 2 * Math.PI);
+            ctx2d.fillStyle = "black";
+            ctx2d.fill();
+            ctx2d.closePath();
+
+            // Brilo olho
+            ctx2d.beginPath();
+            ctx2d.arc(190, 160, 4, 0, 2 * Math.PI);
+            ctx2d.fillStyle = "white";
+            ctx2d.fill();
+            ctx2d.closePath();
+
+            // Soriso
+            ctx2d.beginPath();
+                ctx2d.arc(200, 200, 50, Math.PI - 1, Math.PI - 2.5, true);
+                ctx2d.lineWidth = 3;
+                ctx2d.stroke();
+            ctx2d.closePath();
+
+            // Macacão
+            ctx2d.fillStyle = "blue";
+            ctx2d.fillRect(65, 300, 260, 20);
+            ctx2d.fillRect(105, 310, 180, 100);
+
+            // Macacão parte de baixo
+
+            ctx2d.beginPath();
+                ctx2d.arc(195, 400, 125, 0, Math.PI);
+                ctx2d.fill();
+            ctx2d.closePath();
+        }
+    </script>
+</body>
+
+</html>
