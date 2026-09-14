@@ -7,10 +7,150 @@
     <title>Fórum de Discussão</title>
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
     <style>
-        .container { max-width: 600px; margin: 20px auto; font-family: sans-serif; }
-        .formulario { margin-bottom: 20px; display: flex; flex-direction: column; gap: 8px; }
-        .lista { border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; border-radius: 4px; }
-        .exc { color: red; text-decoration: none; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 50%, #93c5fd 100%);
+            min-height: 100vh;
+            padding: 40px 16px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 640px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .card {
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(30, 64, 175, 0.15);
+            padding: 28px;
+            border: 1px solid #e0e7ff;
+        }
+
+        .card-titulo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+            color: #1e3a8a;
+        }
+
+        .card-titulo h1, .card-titulo h2 {
+            font-size: 1.35rem;
+        }
+
+        .icone {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .formulario {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 12px 14px;
+            border: 2px solid #e0e7ff;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-family: inherit;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        input[type="text"]:focus, textarea:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.15);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 110px;
+        }
+
+        .botao {
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            color: #fff;
+            border: none;
+            padding: 12px 22px;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            align-self: flex-end;
+            transition: transform 0.15s, box-shadow 0.15s;
+        }
+
+        .botao:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(37, 99, 235, 0.35);
+        }
+
+        .lista {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .lista-vazia {
+            text-align: center;
+            color: #64748b;
+            padding: 24px;
+            background: #f8fafc;
+            border-radius: 12px;
+            border: 2px dashed #cbd5e1;
+        }
+
+        .postagem {
+            background: #f8faff;
+            border: 1px solid #e0e7ff;
+            border-left: 4px solid #2563eb;
+            border-radius: 12px;
+            padding: 16px 18px;
+        }
+
+        .autor {
+            color: #1e3a8a;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .comentario {
+            color: #334155;
+            line-height: 1.5;
+            margin-bottom: 10px;
+        }
+
+        .exc {
+            color: #dc2626;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            opacity: 0.8;
+            transition: opacity 0.2s;
+        }
+
+        .exc:hover {
+            opacity: 1;
+            text-decoration: underline;
+        }
     </style>
 </head>
 
@@ -19,17 +159,22 @@
 
     <script>
         // Componente do Formulário
-        Vue.component('comentario-form', {
+        Vue.component('comment-form', {
             template: `
-                <div class="formulario">
-                    <h1>Fórum de discussão</h1>
-                    <p>
+                <div class="card">
+                    <div class="card-titulo">
+                        <span class="icone">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                            </svg>
+                        </span>
+                        <h1>Fórum de discussão</h1>
+                    </div>
+                    <div class="formulario">
                         <input type="text" placeholder="Usuário" v-model="nome">
-                    </p>
-                    <p>
                         <textarea cols="30" rows="5" placeholder="Postagem" v-model="mensagem"></textarea>
-                    </p>
-                    <button type="button" class="botao" v-on:click="enviarComentario">Postar</button>
+                        <button type="button" class="botao" v-on:click="enviarComentario">Postar</button>
+                    </div>
                 </div>
             `,
             data() {
@@ -41,8 +186,7 @@
             methods: {
                 enviarComentario() {
                     if (this.nome.trim() === '' || this.mensagem.trim() === '') return;
-                    
-                    // Emite um evento para o componente pai avisando que há um novo comentário
+
                     this.$emit('novo-comentario', {
                         nome: this.nome,
                         comentario: this.mensagem
@@ -55,20 +199,37 @@
         });
 
         // Componente da Lista de Resultados
-        Vue.component('resultado-lista', {
-            props: ['comentarios'], // Recebe a lista do pai
+        Vue.component('comment-list', {
+            props: ['comentarios'],
             template: `
-                <div>
-                    <div class="lista" v-for="(postagem, index) in comentarios" :key="index">
-                        <p class="autor"><b>{{ postagem.nome }}</b></p>
-                        <p class="comentario">{{ postagem.comentario }}</p>
-                        <p><a href="#" class="exc" v-on:click.prevent="remover(index)">Excluir</a></p>
+                <div class="card">
+                    <div class="card-titulo">
+                        <span class="icone">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="8" y1="6" x2="21" y2="6"></line>
+                                <line x1="8" y1="12" x2="21" y2="12"></line>
+                                <line x1="8" y1="18" x2="21" y2="18"></line>
+                                <line x1="3" y1="6" x2="3.01" y2="6"></line>
+                                <line x1="3" y1="12" x2="3.01" y2="12"></line>
+                                <line x1="3" y1="18" x2="3.01" y2="18"></line>
+                            </svg>
+                        </span>
+                        <h2>Comentários</h2>
+                    </div>
+                    <div class="lista">
+                        <div class="lista-vazia" v-if="comentarios.length === 0">
+                            Nenhum comentário ainda. Seja o primeiro a postar!
+                        </div>
+                        <div class="postagem" v-for="(postagem, index) in comentarios" :key="index">
+                            <p class="autor"><b>{{ postagem.nome }}</b></p>
+                            <p class="comentario">{{ postagem.comentario }}</p>
+                            <p><a href="#" class="exc" v-on:click.prevent="remover(index)">Excluir</a></p>
+                        </div>
                     </div>
                 </div>
             `,
             methods: {
                 remover(index) {
-                    // Emite um evento para o pai remover o item da lista
                     this.$emit('remover-comentario', index);
                 }
             }
@@ -90,8 +251,8 @@
             },
             template: `
                 <div class="container">
-                    <comentario-form @novo-comentario="adicionarComentario"></comentario-form>
-                    <resultado-lista :comentarios="comentarios" @remover-comentario="excluirComentario"></resultado-lista>
+                    <comment-form @novo-comentario="adicionarComentario"></comment-form>
+                    <comment-list :comentarios="comentarios" @remover-comentario="excluirComentario"></comment-list>
                 </div>
             `
         });
