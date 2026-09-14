@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logo no Canvas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+        }
+
+        canvas {
+            background: white;
+            border: 2px solid #000;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Logo reproduzida no Canvas</h1>
+    <canvas id="logo" width="600" height="600"></canvas>
+
+    <script>
+        const canvas = document.getElementById("logo");
+        const ctx = canvas.getContext("2d");
+
+        // ===== Moldura: retângulo arredondado =====
+        ctx.beginPath();
+        ctx.moveTo(80, 200);
+        ctx.lineTo(480, 200);
+        ctx.arcTo(560, 200, 560, 240, 40);   // canto superior direito
+        ctx.lineTo(560, 400);
+        ctx.arcTo(560, 440, 480, 440, 40);   // canto inferior direito
+        ctx.lineTo(80, 440);
+        ctx.arcTo(40, 440, 40, 400, 40);     // canto inferior esquerdo
+        ctx.lineTo(40, 240);
+        ctx.arcTo(40, 200, 80, 200, 40);     // canto superior esquerdo
+        ctx.closePath();
+        ctx.strokeStyle = "black";
+        ctx.lineWidth = 4;
+        ctx.stroke();
+
+        // ===== Letras: traço grosso estilo logo =====
+        ctx.strokeStyle = "black";
+        ctx.lineWidth = 14;
+        ctx.lineCap = "round";
+        ctx.lineJoin = "round";
+
+        // Letra A (triângulo + travessão)
+        ctx.beginPath();
+        ctx.moveTo(120, 400);
+        ctx.lineTo(180, 220);
+        ctx.lineTo(240, 400);
+        ctx.moveTo(140, 340);   // travessão do A
+        ctx.lineTo(220, 340);
+        ctx.stroke();
+
+        // Letra C (arco aberto à direita)
+        ctx.beginPath();
+        ctx.arc(310, 310, 93, 1.8 * Math.PI, 0.50 * Math.PI, true);
+        ctx.stroke();
+
+        // Letra L (haste + base)
+        ctx.beginPath();
+        ctx.moveTo(310, 230);
+        ctx.lineTo(310, 403);
+        ctx.lineTo(385, 403);
+        ctx.stroke();
+
+        // Letra P (haste + laço)
+        ctx.beginPath();
+        ctx.moveTo(400, 400);
+        ctx.lineTo(400, 220);
+        ctx.lineTo(440, 220);
+        ctx.arc(440, 280, 60, 1.5 * Math.PI, 0.7 * Math.PI, false);
+        ctx.stroke();
+    </script>
+</body>
+
+</html>
