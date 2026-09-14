@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <style>
+        .botao{
+            float: right;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app"></div>
+
+    <script>
+        new Vue({
+            el: '#app',
+            template:
+                ` <div class="container" >
+
+                    <div class="formulario">
+                        <h1>Fórum de discussão</h1>
+                        <p>
+                            <input type="text" name="usuário" placeholder="Usuário" v-model="nome">
+                        </p>
+                        <p>
+                            <textarea name="message" cols="30" rows="5" placeholder="Postagem" v-model="comentario"></textarea>
+                        </p>
+                        <button type="submit" class="botao" v-on:click="addComentario">Postar</button>
+                    </div>
+                    <div class="lista" v-for="(postagem, index) in comentarios">
+                        <div class="avatar"></div>
+                        <p class="autor"><b>{{postagem.nome}}</b></p>
+                        <p class="comentario">{{postagem.comentario}}</p>
+                        <p><a href="#" class="exc" v-on:click="removerComentario(index)">Excluir</a></p>
+                    </div>
+
+                    
+
+                </div> `,
+            
+            data(){
+                    return{
+                        comentarios: [],
+                        nome: '',
+                        comentario: '',
+                    }
+            },
+            methods: {
+
+            addComentario() {
+
+                this.comentarios.push({
+                    nome: this.nome,
+                    comentario: this.comentario,
+                })
+                this.nome = '';
+                this.comentario = '';
+                },
+            removerComentario(index){
+                this.comentarios.splice(index, 1);
+            }
+
+            },
+        });
+    </script>
+
+</body>
+
+</html>

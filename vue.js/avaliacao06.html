@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fórum de Discussão</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <style>
+        .container { max-width: 600px; margin: 20px auto; font-family: sans-serif; }
+        .formulario { margin-bottom: 20px; display: flex; flex-direction: column; gap: 8px; }
+        .lista { border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; border-radius: 4px; }
+        .exc { color: red; text-decoration: none; }
+    </style>
+</head>
+
+<body>
+    <div id="app"></div>
+
+    <script>
+        // Componente do Formulário
+        Vue.component('comentario-form', {
+            template: `
+                <div class="formulario">
+                    <h1>Fórum de discussão</h1>
+                    <p>
+                        <input type="text" placeholder="Usuário" v-model="nome">
+                    </p>
+                    <p>
+                        <textarea cols="30" rows="5" placeholder="Postagem" v-model="mensagem"></textarea>
+                    </p>
+                    <button type="button" class="botao" v-on:click="enviarComentario">Postar</button>
+                </div>
+            `,
+            data() {
+                return {
+                    nome: '',
+                    mensagem: ''
+                }
+            },
+            methods: {
+                enviarComentario() {
+                    if (this.nome.trim() === '' || this.mensagem.trim() === '') return;
+                    
+                    // Emite um evento para o componente pai avisando que há um novo comentário
+                    this.$emit('novo-comentario', {
+                        nome: this.nome,
+                        comentario: this.mensagem
+                    });
+
+                    this.nome = '';
+                    this.mensagem = '';
+                }
+            }
+        });
+
+        // Componente da Lista de Resultados
+        Vue.component('resultado-lista', {
+            props: ['comentarios'], // Recebe a lista do pai
+            template: `
+                <div>
+                    <div class="lista" v-for="(postagem, index) in comentarios" :key="index">
+                        <p class="autor"><b>{{ postagem.nome }}</b></p>
+                        <p class="comentario">{{ postagem.comentario }}</p>
+                        <p><a href="#" class="exc" v-on:click.prevent="remover(index)">Excluir</a></p>
+                    </div>
+                </div>
+            `,
+            methods: {
+                remover(index) {
+                    // Emite um evento para o pai remover o item da lista
+                    this.$emit('remover-comentario', index);
+                }
+            }
+        });
+
+        // Instância principal do Vue
+        new Vue({
+            el: '#app',
+            data: {
+                comentarios: []
+            },
+            methods: {
+                adicionarComentario(novoPost) {
+                    this.comentarios.push(novoPost);
+                },
+                excluirComentario(index) {
+                    this.comentarios.splice(index, 1);
+                }
+            },
+            template: `
+                <div class="container">
+                    <comentario-form @novo-comentario="adicionarComentario"></comentario-form>
+                    <resultado-lista :comentarios="comentarios" @remover-comentario="excluirComentario"></resultado-lista>
+                </div>
+            `
+        });
+    </script>
+</body>
+
+</html>
