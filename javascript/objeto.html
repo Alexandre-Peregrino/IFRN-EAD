@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <p id="teste">Meu nome é <strong>Alexandre</strong></p>
+    <h1 id="saida">Saída</h1>
+    
+    <script>
+        let pessoa = {
+            nome: 'João',
+            idade: '42 anos',
+            cidade: 'Parnamirim',
+            saudacao: function () {
+                return ` Olá, meu nome é ${this.nome}, tenho ${this.idade} e moro em ${this.cidade}`
+            },
+
+        };
+        let saida = document.getElementById('saida');
+        saida.innerHTML = pessoa.saudacao();
+        alert(document.getElementById('teste').innerHTML)
+        
+        
+    </script>
+
+</body>
+
+</html>

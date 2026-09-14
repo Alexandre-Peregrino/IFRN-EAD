@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Classe Circle</title>
+</head>
+<body>
+    <canvas id="canvas" width="600" height="600" style="border: 1px solid black;"></canvas>
+
+    <script>
+        const canvas = document.getElementById("canvas");
+        const context = canvas.getContext("2d");
+
+        class Circle {
+            constructor(xpos, ypos, radius, color) {
+                this.xpos = xpos;
+                this.ypos = ypos;
+                this.radius = radius;
+                this.color = color;
+            }
+            draw(context) {
+                context.beginPath();
+                context.arc(this.xpos, this.ypos, this.radius, 0, Math.PI * 2, false);
+                context.strokeStyle = this.color;
+                context.stroke();
+            }
+        }
+
+        let my_circle = new Circle(100, 100, 50, "black");
+        my_circle.draw(context);
+        let my_circle2 = new Circle(180, 100, 50, "red");
+        my_circle2.draw(context);
+        let circle3 = new Circle(260, 100, 50, "blue");
+        circle3.draw(context);
+        let circle4 = new Circle(340, 100, 50, "green");
+        circle4.draw(context);
+    </script>
+</body>
+</html>

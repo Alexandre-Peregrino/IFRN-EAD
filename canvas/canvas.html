@@ -5,34 +5,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Canvas</title>
-    
 </head>
 
 <body>
     <h1>Experimentando o canvas</h1>
-    <canvas id="canvas" width="1000" height="1000" style="border: 1px solid black;">
+    <canvas id="canvas" width="1000" height="1000" style="border: 1px solid black;"></canvas>
 
-    </canvas>
-
+    <h2>Pizza</h2>
+    <canvas id="pizza" width="600" height="600" style="border: 1px solid black;"></canvas>
 </body>
-<script>
 
+<script>
     const canvas = document.getElementById("canvas");
     const ctx2d = canvas.getContext("2d");
 
-    //Quadrado azul
-
+    // Quadrado azul
     ctx2d.fillStyle = "blue";
     ctx2d.fillRect(30, 40, 200, 200);
 
-    //circulo vermelho
+    // Círculo vermelho
     ctx2d.beginPath();
-    ctx2d.arc(110, 350, 100, 0, Math.PI * 2);
+    ctx2d.arc(110, 350, 100, Math.PI/6, Math.PI *11/6);
     ctx2d.fillStyle = "red";
     ctx2d.fill();
     ctx2d.closePath();
 
-    //triangulo verde
+    // Triângulo verde
     ctx2d.beginPath();
     ctx2d.moveTo(300, 300);
     ctx2d.lineTo(500, 300);
@@ -41,6 +39,7 @@
     ctx2d.fill();
     ctx2d.closePath();
 
+    // Função para desenhar polígonos
     function desenharPoligono(ctx, cx, cy, raio, lados, rotacao = -Math.PI / 2) {
         ctx.beginPath();
         for (let i = 0; i < lados; i++) {
@@ -54,16 +53,16 @@
         ctx.fill();
     }
 
-    // 3. Chamada da função, passando o ctx2d do canvas
+    // Triângulo usando a função
     ctx2d.fillStyle = "green";
-    desenharPoligono(ctx2d, 400, 150, 100, 3); // triângulo
+    desenharPoligono(ctx2d, 400, 150, 100, 3);
 
-
+    // Função para desenhar estrelas
     function desenharEstrela(ctx, cx, cy, raioExterno, raioInterno, pontas = 5, rotacao = -Math.PI / 2) {
         ctx.beginPath();
         for (let i = 0; i < pontas * 2; i++) {
             const raio = i % 2 === 0 ? raioExterno : raioInterno;
-            const angulo = rotacao + (i * Math.PI) / pontas; // 2π / (2*pontas) = π/pontas
+            const angulo = rotacao + (i * Math.PI) / pontas;
             const x = cx + raio * Math.cos(angulo);
             const y = cy + raio * Math.sin(angulo);
             if (i === 0) ctx.moveTo(x, y);
@@ -74,42 +73,45 @@
     }
 
     // Estrela de 5 pontas
+    ctx2d.fillStyle = "gold";
     desenharEstrela(ctx2d, 150, 700, 150, 60);
 
     // Estrela de 6 pontas
+    ctx2d.fillStyle = "orange";
     desenharEstrela(ctx2d, 500, 700, 150, 60, 6);
 
-    // Estrela de 6 pontas
+    // Estrela de 8 pontas
+    ctx2d.fillStyle = "purple";
     desenharEstrela(ctx2d, 850, 200, 150, 60, 8);
 
-    const canvas_pizza = document.getElementById("pizza");
-    const ctx2d = canvas_pizza.getContext("2d");
+    // ---- Pizza (canvas separado, com contexto próprio) ----
+    const canvasPizza = document.getElementById("pizza");
+    const ctxPizza = canvasPizza.getContext("2d");
     const cx = 300, cy = 300, raio = 250;
 
     // 1. Base da pizza: círculo cheio com borda
-    ctx2d.fillStyle = "#f0c060";           // queijo
-    ctx2d.beginPath();
-    ctx2d.arc(cx, cy, raio, 0, 2 * Math.PI);
-    ctx2d.fill();
-    ctx2d.strokeStyle = "#b87333";         // cor da borda
-    ctx2d.lineWidth = 4;
-    ctx2d.stroke();
+    ctxPizza.fillStyle = "#f0c060";           // queijo
+    ctxPizza.beginPath();
+    ctxPizza.arc(cx, cy, raio, 0, 2 * Math.PI);
+    ctxPizza.fill();
+    ctxPizza.strokeStyle = "#b87333";         // cor da borda
+    ctxPizza.lineWidth = 4;
+    ctxPizza.stroke();
 
     // 2. As 8 fatias: setores de 45° (2π/8)
     for (let i = 0; i < 8; i++) {
-        const inicio = (i * 2 * Math.PI) / 8;       // ângulo inicial da fatia
-        const fim = ((i + 1) * 2 * Math.PI) / 8; // ângulo final
+        const inicio = (i * 2 * Math.PI) / 8;         // ângulo inicial da fatia
+        const fim = ((i + 1) * 2 * Math.PI) / 8;      // ângulo final
 
-        ctx2d.beginPath();
-        ctx2d.moveTo(cx, cy);                        // sai do centro
-        ctx2d.arc(cx, cy, raio, inicio, fim);        // percorre a circunferência
-        ctx2d.closePath();                           // volta ao centro
+        ctxPizza.beginPath();
+        ctxPizza.moveTo(cx, cy);                      // sai do centro
+        ctxPizza.arc(cx, cy, raio, inicio, fim);      // percorre a circunferência
+        ctxPizza.closePath();                         // volta ao centro
 
-        ctx2d.strokeStyle = "#b87333";               // borda aparente da fatia
-        ctx2d.lineWidth = 3;
-        ctx2d.stroke();
+        ctxPizza.strokeStyle = "#b87333";             // borda aparente da fatia
+        ctxPizza.lineWidth = 3;
+        ctxPizza.stroke();
     }
-
 </script>
 
 </html>
