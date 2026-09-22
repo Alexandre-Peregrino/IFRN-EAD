@@ -1,0 +1,28 @@
+# Dependências
+node_modules
+
+# Builds
+dist
+dist-ssr
+coverage
+*.local
+
+# Logs
+*.log
+npm-debug.log*
+
+# Ambiente e segredos
+.env
+.env.*
+!.env.example
+
+# Editores e SO
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+Thumbs.db
+
+# TypeScript e linters
+*.tsbuildinfo
+.eslintcache
