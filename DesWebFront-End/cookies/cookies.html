@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cookies</title>
+</head>
+<body onload="checkCookie()">
+    <h1>Utilizando cookies</h1>
+
+    <script>
+        function setCookie(nome, valor, dias){
+            var data = new Date();
+            data.setTime(data.getTime() + (dias*24*60*60*1000));
+            var validade = "Expires=" + data.toUTCString();
+            var dados = document.cookie = nome + "=" + valor + ";" + validade + "; path=/";
+            console.log(dados)
+        }
+
+        function getCookie(cname){
+
+            var nome = cname + "=";
+            var dcCookie = decodeURIComponent(document.cookie)
+            var ca = dcCookie.split(';');
+            for(var i = 0; i<ca.length; i++){
+                var c = ca[i];
+                while(c.charAt(0) == ' '){
+
+                    c = c.substring(1);
+
+                }
+                if(c.indexOf(nome) == 0){
+                    return c.substring(nome.length, c.length)
+                }     
+            }
+            return "";
+        }
+
+        function checkCookie(){
+            var nomeUsuario = getCookie("usuario")
+            if (nomeUsuario != ""){
+                alert("Seja bem vindo de volta" + nomeUsuario);
+
+            }else{
+                nomeUsuario = prompt("Insira seu nome: ")
+                if(nomeUsuario != " " && nomeUsuario != null){
+                    setCookie("usuario", nomeUsuario, 5)
+                }else{
+                    alert("Insira o nome.");
+                }
+            }
+        }
+    </script>
+</body>
+</html>

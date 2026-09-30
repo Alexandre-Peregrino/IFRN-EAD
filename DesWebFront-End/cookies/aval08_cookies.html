@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criar Cookies</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            padding-top: 60px;
+        }
+
+        .card {
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+            width: 320px;
+            text-align: center;
+        }
+
+        input {
+            width: 90%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            padding: 10px 25px;
+            background: #2e7d32;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #1b5e20;
+        }
+
+        #resultadoCookie {
+            margin-top: 20px;
+            color: #2e7d32;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="card">
+        <h1>Criar Cookies</h1>
+        <form action="">
+            <input type="text" id="nomeCookie" placeholder="Digite o nome do cookie">
+            <input type="text" id="valorCookie" placeholder="Digite o valor do cookie">
+            <input type="number" id="diasExpirar" placeholder="Digite quantos dias para expirar" min="1">
+            <button type="button" id="botaoCriar" onclick="criarCookie()">Criar Cookie</button>
+        </form>
+        <div id="resultadoCookie">
+
+        </div>
+    </div>
+    <script>
+        function getCookie(nome) {
+            const cookies = document.cookie.split("; ");
+            for (let c of cookies) {
+                const par = c.split("=");
+                if (par[0] === nome) {
+                    return par[1];
+                }
+            }
+            return "";
+        }
+
+        function setCookie(nome, valor, dias) {
+            const data = new Date();
+            data.setTime(data.getTime() + dias * 24 * 60 * 60 * 1000);
+            document.cookie = nome + "=" + valor + "; expires=" + data.toUTCString() + "; path=/";
+        }
+
+        function criarCookie() {
+            let nome = document.getElementById('nomeCookie').value;
+            let valor = document.getElementById('valorCookie').value;
+            let dias = Number(document.getElementById('diasExpirar').value);
+
+            if (nome == '' || valor == '' || dias <= 0) {
+                alert('Preencha os campos corretamente');
+                return;
+            }
+
+            setCookie(nome, valor, dias);
+
+            const lido = getCookie(nome);
+
+            document.getElementById('resultadoCookie').innerHTML = "O cookie guardou: " + lido;
+        }
+    </script>
+</body>
+
+</html>

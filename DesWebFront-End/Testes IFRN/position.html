@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            display: flex;
+            position: relative;
+
+        }
+
+        #pai {
+            display: grid;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            width: 800px;
+            height: 600px;
+            border: 2px;
+        }
+
+        #avo {
+            position: relative;
+            width: 600px;
+            height: 400px;
+            border: solid 2px;
+        }
+
+        #avo::after {
+            content: "";
+            display: block;
+            clear: both;
+        }
+
+        #um {
+            border: solid 2px black;
+            width: 200px;
+            height: 200px;
+            margin: 20px;
+            background-color: bisque;
+            
+        }
+
+        #dois {
+            border: solid 2px blue;
+            width: 200px;
+            height: 100px;
+            margin: 20px;
+            background-color: cadetblue;
+           
+
+        }
+
+        img {
+            float: inline-start;
+            width: 100px;
+            margin: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    
+    <div id="pai">
+
+        <div id="um"></div>
+        <div id="dois"></div>
+    </div>
+</body>
+
+</html>

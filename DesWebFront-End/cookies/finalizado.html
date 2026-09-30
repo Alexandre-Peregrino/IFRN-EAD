@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Criar Cookie</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f2f5;
+      display: flex;
+      justify-content: center;
+      padding-top: 60px;
+    }
+    .card {
+      background: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+      width: 320px;
+      text-align: center;
+    }
+    input {
+      width: 90%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    button {
+      padding: 10px 25px;
+      background: #2e7d32;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover { background: #1b5e20; }
+    #resultado {
+      margin-top: 20px;
+      color: #2e7d32;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Criar Cookie</h1>
+
+    <!-- Formulário simples -->
+    <input type="text" id="campoTexto" placeholder="Digite um valor">
+    <br>
+    <!-- Botão que chama a função -->
+    <button onclick="criarCookie()">Criar cookie</button>
+
+    <!-- Aqui o valor do cookie aparece na tela -->
+    <p id="resultado"></p>
+  </div>
+
+  <script>
+    // Cria o cookie: nome=valor, com validade de X dias
+    function setCookie(nome, valor, dias) {
+      const data = new Date();
+      data.setTime(data.getTime() + dias * 24 * 60 * 60 * 1000);
+      document.cookie = nome + "=" + valor +
+        "; expires=" + data.toUTCString() + "; path=/";
+    }
+
+    // Lê um cookie pelo nome, percorrendo a lista de cookies
+    function getCookie(nome) {
+      const cookies = document.cookie.split("; ");
+      for (let c of cookies) {
+        const par = c.split("=");
+        if (par[0] === nome) {
+          return par[1];
+        }
+      }
+      return "";
+    }
+
+    // Orquestra tudo: pega o valor, cria o cookie, lê de volta e mostra
+    function criarCookie() {
+      const valor = document.getElementById("campoTexto").value;
+
+      if (valor === "") {
+        alert("Digite um valor primeiro!");
+        return;
+      }
+
+      setCookie("meuCookie", valor, 7);          // 1. cria (invisível)
+      const lido = getCookie("meuCookie");       // 2. lê de volta
+      document.getElementById("resultado").innerHTML =
+        "O cookie guardou: " + lido;             // 3. mostra na página
+    }
+  </script>
+</body>
+</html>
