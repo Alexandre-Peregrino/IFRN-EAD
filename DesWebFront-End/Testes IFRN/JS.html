@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manipulando o DOM</title>
+    <style>
+        button {}
+    </style>
+</head>
+
+<body>
+    <h1>Manipulando o DOM</h1>
+    <button id="bt1" type="button" onclick="criar()">Criar</button>
+
+
+    <script>
+        function criar() {
+            var novoElemento = document.createElement('p')
+            novoElemento.innerHTML = 'Novo Parágrafo'
+            document.body.appendChild(novoElemento)
+
+        }
+        var botão = document.getElementById('bt1');
+        botão.addEventListener('click', function () { alert('Clicado!'); })
+    </script>
+</body>
+
+</html>

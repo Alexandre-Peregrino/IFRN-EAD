@@ -1,0 +1,19 @@
+@import 'vars';
+
+@mixin espacamento($bkg, $margin, $padding, $tmEscuro: false) {
+    margin: $margin;
+    padding: $padding;
+    @if($tmEscuro){
+        background: #444; 
+        color: #fff;   
+    }@else{
+        background: $bkg;
+    }
+    
+}
+
+@mixin fonte ($familia, $cor, $alinhamento){
+    font-family: $familia;
+    color: $cor;
+    text-align: $alinhamento;
+}

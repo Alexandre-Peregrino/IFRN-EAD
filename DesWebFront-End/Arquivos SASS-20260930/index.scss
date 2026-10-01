@@ -1,0 +1,43 @@
+@import 'vars';
+@import 'funcoes';
+
+body{
+    @include espacamento(#fff, 0, 0, $tmEscuro: true);
+}
+header{
+    @include fonte (Arial, $fonteClara, center);
+    @include espacamento($cor3, 0, 10px);
+}
+nav{
+    @include espacamento ($cor2, 0, 10px);
+    text-align: center;
+    a{
+        @include espacamento(none, 0 5px, 10px);
+        color: $fonteClara;
+        text-decoration: none;
+        &:hover{
+            background: $cor5;
+            transition: 250ms;
+        }
+    }
+}
+
+.container{
+    width: 80%;
+    margin: 0 auto;
+    h2{
+        color: #c06e97;
+    }
+    img{
+        float: left;
+        padding: 5px;
+    }
+}
+
+footer{
+    @include fonte(Arial, $cor1, center);
+    @include espacamento($cor3, 0, 10px 0);
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+}

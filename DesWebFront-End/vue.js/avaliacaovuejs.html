@@ -7,8 +7,116 @@
     <title>Document</title>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <style>
-        .botao{
-            float: right;
+        * {
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background-color: #f4f6f8;
+            display: flex;
+            justify-content: center;
+            padding: 30px 10px;
+        }
+
+        .container {
+            width: 400px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* ---- Formulário (card branco) ---- */
+        .formulario {
+            background-color: #e7dfdf;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+            padding: 20px;
+        }
+
+        .formulario h1 {
+            margin: 0 0 15px 0;
+            font-size: 24px;
+            font-weight: 700;
+            color: #1a472a;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        textarea {
+            resize: vertical;
+        }
+
+        .botao {
+            display: block;
+            margin-left: auto;
+            padding: 8px 24px;
+            border: none;
+            border-radius: 6px;
+            background-color: #28a745;
+            color: #ffffff;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .botao:hover {
+            background-color: #218838;
+        }
+
+        /* ---- Comentários (cards verdes) ---- */
+        .lista {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            background-color: #f0fff4;
+            border: 1px solid #d4edda;
+            border-radius: 8px;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+            padding: 15px;
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #28a745;
+        }
+
+        .autor {
+            margin: 0 0 0 10px;
+            font-size: 16px;
+            color: #1a472a;
+        }
+
+        .comentario {
+            width: 100%;
+            margin: 10px 0;
+            font-size: 15px;
+            color: #4a5568;
+        }
+
+        .lista p:last-child {
+            width: 100%;
+            margin: 0;
+            text-align: right;
+        }
+
+        .exc {
+            color: #c82333;
+            font-size: 13px;
+            text-decoration: none;
+        }
+
+        .exc:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
@@ -38,32 +146,30 @@
                         <p class="comentario">{{postagem.comentario}}</p>
                         <p><a href="#" class="exc" v-on:click="removerComentario(index)">Excluir</a></p>
                     </div>
-
-                    
-
                 </div> `,
-            
-            data(){
-                    return{
-                        comentarios: [],
-                        nome: '',
-                        comentario: '',
-                    }
+            data() {
+                return {
+                    comentarios: [],
+                    nome: '',
+                    comentario: '',
+                }
             },
+
+
             methods: {
 
-            addComentario() {
+                addComentario() {
 
-                this.comentarios.push({
-                    nome: this.nome,
-                    comentario: this.comentario,
-                })
-                this.nome = '';
-                this.comentario = '';
+                    this.comentarios.push({
+                        nome: this.nome,
+                        comentario: this.comentario,
+                    })
+                    this.nome = '';
+                    this.comentario = '';
                 },
-            removerComentario(index){
-                this.comentarios.splice(index, 1);
-            }
+                removerComentario(index) {
+                    this.comentarios.splice(index, 1);
+                }
 
             },
         });

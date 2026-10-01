@@ -3,7 +3,7 @@
 import axios from 'axios';
 
 export default {
-  namo: 'painelUsuarios',
+  name: 'painelUsuarios',
   data() {
     return {
       carregando: true,
@@ -42,22 +42,22 @@ export default {
         <strong> {{ usuario.name }} </strong>: {{ usuario.email }}
       </li>
     </ul>
-    
+
   </div>
 
 
 </template>
 
 <style scoped>
-  .aplicacao-consumo {
-    font-family: Arial, Helvetica, sans-serif;
-    max-width: 600px;
-    margin: 20px auto;
-  }
-  .alert {
-    color: red;
-    font-size: 1.2em;
-    text-align: center;
-  }
-</style>
+.aplicacao-consumo {
+  font-family: Arial, Helvetica, sans-serif;
+  max-width: 600px;
+  margin: 20px auto;
+}
 
+.alert {
+  color: red;
+  font-size: 1.2em;
+  text-align: center;
+}
+</style>
